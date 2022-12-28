@@ -88,12 +88,11 @@ class Horizon_Prog(Frame):
         self._serialnumber.pack(side='top')
         self._prog_and_increment = Button(self._Frame6
             ,command=self._on__prog_and_increment_command,state='disabled'
-            ,text='TEST (up key, down key)')
+            ,text='TEST (up key)')
         self._prog_and_increment.pack(side='top')
-        self._GasThreshold = Button(self._Frame6
-            ,command=self._on__GasThreshold_command,state='disabled'
-            ,text='Write Gas Threshold')
-        self._GasThreshold.pack(side='top')
+        self._Retry = Button(self._Frame6,command=self._on__Retry_command
+            ,state='disabled',text='Retry (down key)')
+        self._Retry.pack(side='top')
         self._ethmacaddr = Entry(self._Frame6,state='disabled'
             ,textvariable=self.ethmacaddr)
         self._ethmacaddr.pack(side='bottom')
@@ -350,7 +349,7 @@ class Horizon_Prog(Frame):
             self._btn_dev_mac.config(state="normal")
             self._btn_dev_req.config(state="normal")            
             self._btn_lamp_wdg_0.config(state="normal")
-            self._GasThreshold.config(state="normal")
+            self._Retry.config(state="normal")
         except:            
             connected=0
             mbox.showerror("Ошибка", "Невозможно открыть COM-порт")  
@@ -359,16 +358,18 @@ class Horizon_Prog(Frame):
 
 
 
-    def _on__GasThreshold_command(self,Event=None):
+    def _on__Retry_command(self,Event=None): #retry (down key)
+        setup_ip_mac_etc()
         ok=1
-
-        if write_and_verify('at thr alm','0x05','ipaddr')==0:            
-           ok=0
-           mbox.showerror("Ошибка","Ошибка записи at thr alm")
         
-        if write_and_verify('at thr gas','0x01','ipaddr')==0:            
-           ok=0
-           mbox.showerror("Ошибка","Ошибка записи at thr gas")
+        self.serial_number.set(str(int(self.serial_number.get())-1))
+        if int(self.serial_number.get())%1000<=0:
+            self.serial_number.set(int(self.serial_number.get())-746)          
+        setup_ip_mac_etc()
+        
+        write_ram('exe '+self.ataddr.get()+' sys info');
+        ok=1
+        
         
         
         pass
@@ -426,7 +427,7 @@ class Horizon_Prog(Frame):
             trim+=1
         write_ram_eep("at trim "+str(trim)+'\r')
 
-    def _on__prog_and_increment_command(self,Event=None):
+    def _on__prog_and_increment_command(self,Event=None): #test and inc (up key)
         setup_ip_mac_etc()
         ok=1
         
@@ -437,18 +438,7 @@ class Horizon_Prog(Frame):
             self.serial_number.set(str(int(self.serial_number.get())+1))
             if int(self.serial_number.get())%1000>=255:
                self.serial_number.set(int(self.serial_number.get())+746)
-
-    def _on__prog_and_decrement_command(self,Event=None):
-        setup_ip_mac_etc()
-        ok=1
-        
-        write_ram('exe '+self.ataddr.get()+' sys info');
-        ok=1
-        
-        if ok==1:
-            self.serial_number.set(str(int(self.serial_number.get())-1))
-            if int(self.serial_number.get())%1000<=0:
-               self.serial_number.set(int(self.serial_number.get())-746)        
+    
         
 
     def _on__right_command(self,Event=None):
@@ -694,7 +684,7 @@ try:
                    
         def down_key(event):
                 if connected==1:
-                   App._on__prog_and_decrement_command()                                
+                   App._on__Retry_command()                                
         
         Root.bind('<Left>', left_key)
         Root.bind('<Right>', right_key)

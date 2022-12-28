@@ -14,3 +14,4 @@
 
 23aug2022.13:13 Button on up key changed to exe sys info and increment serial for test Horizon devices
 25aug2022.10:39 Added check fw ver. If ver=mar2020 - print alarm. Added down button (decrement)
+28dec2022.12:29 Added Retry button
