@@ -1,0 +1,18 @@
+27feb2019.11:22 ma45 treshold patch checkbox sets disabled by defalult.
+27feb2019.18:08 added "lamp wdg" button and this command added when serial writes.
+28feb2019.13:27 fix error writing "adf ifbw" and "lamp wdg" to MA45.
+28feb2019.13:56 buttons "dbg 0" and "dbg 1" moves above "ping" for easy test ATRF when grp alarm is on.
+10apr2019.11:55 added second text entry and button "Send to device".
+30apr2019.16:34 corrected cassete name (1-M-0.5 to 1-M-5)
+21aug2019.13:46 text fields changed to "at dst 0x0007" and "exe 0x0003 sys info"
+10sep2019.21:42 added listbox of COM ports
+23mar2020.17:45 eth macaddr changed from "..D8:13.." to "..D8:14.."
+03mar2022.18:22 added Gas Threshold btn
+11aug2022.14:12 added eeprom at thr gas 1 and eeprom at thr alm 5 for MA41
+18aug2022.17:50 set large font for receiver text window
+22aug2022.17:41 deleted old ma45 threshold patch. Added new ma45 patch
+
+23aug2022.13:13 Button on up key changed to exe sys info and increment serial for test Horizon devices
+25aug2022.10:39 Added check fw ver. If ver=mar2020 - print alarm. Added down button (decrement)
+28dec2022.12:29 Added Retry button
+27feb2023.17:26 Added ADF TST 50 test
